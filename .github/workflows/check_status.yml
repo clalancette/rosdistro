@@ -7,6 +7,13 @@ jobs:
     name: "Check ROS Distro Status"
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          path: rosdistro
+      - uses: actions/checkout@v2
+        with:
+          repository: mjcarroll/rosdistro_status
+          path: rosdistro_status
       - uses: mjcarroll/action-rosdistro-status@releases/v1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
