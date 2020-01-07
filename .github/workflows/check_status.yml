@@ -1,0 +1,13 @@
+name: "ROS Distro Status"
+on:
+  pull_request:
+
+jobs:
+  check_status:
+    name: "Check ROS Distro Status"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mjcarroll/action-rosdistro-status@releases/v1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
