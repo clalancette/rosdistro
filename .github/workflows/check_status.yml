@@ -1,12 +1,26 @@
 name: "rosdistro"
 on:
   pull_request:
+    paths:
+      - ardent/distribution.yaml
+      - bouncy/distribution.yaml
+      - crystal/distribution.yaml
+      - dashing/distribution.yaml
+      - eloquent/distribution.yaml
+      - foxy/distribution.yaml
+      - groovy/distribution.yaml
+      - indigo/distribution.yaml
+      - jade/distribution.yaml
+      - kinetic/distribution.yaml
+      - lunar/distribution.yaml
+      - melodic/distribution.yaml
+      - noetic/distribution.yaml
   schedule:
-    - cron:  '0 * * * *'
+    - cron:  '5 * * * *'
 
 jobs:
   single_distro:
-    name: "Single Distro"
+    name: "Modifies Single Distro"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,7 +50,7 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           checks: 'eol'
   check_distro:
-    name: "Distro Not Frozen"
+    name: "Distro Held for Sync"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +65,7 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           checks: 'distro_freeze'
   check_type:
-    name: "Type Not Frozen"
+    name: "Type (ROS1/ROS2) Held for Buildfarm"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
