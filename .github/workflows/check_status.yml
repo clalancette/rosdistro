@@ -1,10 +1,12 @@
-name: "ROS Distro Status"
+name: "rosdistro"
 on:
   pull_request:
+  schedule:
+    - cron:  '0 * * * *'
 
 jobs:
-  check_status:
-    name: "Check ROS Distro Status"
+  single_distro:
+    name: "Single Distro"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,4 +19,51 @@ jobs:
       - uses: mjcarroll/action-rosdistro-status@releases/v1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          checks: 'single_distro'
+  check_eol:
+    name: "Is Not EOL"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: rosdistro
+      - uses: actions/checkout@v2
+        with:
+          repository: mjcarroll/rosdistro_status
+          path: rosdistro_status
+      - uses: mjcarroll/action-rosdistro-status@releases/v1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          checks: 'eol'
+  check_distro:
+    name: "Distro Not Frozen"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: rosdistro
+      - uses: actions/checkout@v2
+        with:
+          repository: mjcarroll/rosdistro_status
+          path: rosdistro_status
+      - uses: mjcarroll/action-rosdistro-status@releases/v1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          checks: 'distro_freeze'
+  check_type:
+    name: "Type Not Frozen"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: rosdistro
+      - uses: actions/checkout@v2
+        with:
+          repository: mjcarroll/rosdistro_status
+          path: rosdistro_status
+      - uses: mjcarroll/action-rosdistro-status@releases/v1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          checks: 'ros_freeze'
+      
 
